@@ -1,0 +1,16 @@
+<web-app version="2.5">
+	<display-name>JProx Webapp</display-name>
+	<servlet>
+		<servlet-name>JProxViaParameterServlet</servlet-name>
+		<servlet-class>com.github.matthesrieke.jprox.JProxViaParameterServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>parameterKey</param-name>
+			<param-value>targetUrl</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JProxViaParameterServlet</servlet-name>
+		<url-pattern>/parameter</url-pattern>
+	</servlet-mapping>
+</web-app>
