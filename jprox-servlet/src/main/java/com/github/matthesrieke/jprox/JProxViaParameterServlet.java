@@ -39,8 +39,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.ByteArrayBuffer;
 import org.apache.http.util.EntityUtils;
 
 public class JProxViaParameterServlet extends HttpServlet {
@@ -94,9 +96,21 @@ public class JProxViaParameterServlet extends HttpServlet {
 		}
 		else if (method.equals(HttpPost.METHOD_NAME)) {
 			HttpPost post = new HttpPost(target);
-			post.setEntity(new InputStreamEntity(req.getInputStream(), req.getContentLength()));
+			post.setEntity(new ByteArrayEntity(readInputStream(req.getInputStream(), req.getContentLength()),
+					ContentType.parse(req.getContentType())));
+			return post;
 		}
 		throw new UnsupportedOperationException("Only GET and POST are supported by this proxy.");
+	}
+
+	private byte[] readInputStream(InputStream inputStream, int estimateLength) throws IOException {
+		ByteArrayBuffer bb = new ByteArrayBuffer(estimateLength);
+		int b;
+		while ((b = inputStream.read()) != -1) {
+			bb.append(b);
+		}
+		inputStream.close();
+		return bb.toByteArray();
 	}
 
 	private String resolveTargetUrl(HttpServletRequest req) {

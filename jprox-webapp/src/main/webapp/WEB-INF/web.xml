@@ -6,11 +6,11 @@
 		<load-on-startup>1</load-on-startup>
 		<init-param>
 			<param-name>parameterKey</param-name>
-			<param-value>targetUrl</param-value>
+			<param-value>url</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>JProxViaParameterServlet</servlet-name>
-		<url-pattern>/parameter</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 </web-app>
